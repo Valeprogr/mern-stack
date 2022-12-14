@@ -1,5 +1,5 @@
 import { Router } from "express";
-
+import Workout from "../models/Workout.js"
 
 const router = new Router();
 
@@ -15,8 +15,13 @@ router.get("/:id",(req,res)=>{
 
 //POST  a new workout 
 router.post("/", (req,res)=>{
-    req.body
-    res.json({message: "POST a new Workout"})
+    const {title, reps, load} =req.body;
+    try{
+        const workout = Workout.create({title,load,reps})
+        res.status(200).json(workout);
+    }catch(error){
+        res.status(400).json({error: error.message})
+    }
 })
 
 //EDIT  a workout 
